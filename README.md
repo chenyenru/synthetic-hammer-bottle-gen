@@ -2,7 +2,23 @@
 ======
 Adapted from [Federico Arenas López's Data Generation with Blender](https://federicoarenasl.github.io/Data-Generation-with-Blender/)
 
+## Todos
 
+- [ ] Different background
+- [ ] Plastic Bottle
+    - [ ] 1 L wide-mouthed plastic water bottle
+    - [ ] Material
+        - [ ] Transparent + Plastic
+        - [ ] Plastic + :
+            - [ ] Blue
+            - [ ] Grey
+            - [ ] Pink
+            - [ ] Orange
+            - [ ] Red
+
+- [ ] Hammer
+    - [ ] Different Hammer materials
+        - [ ] Rough plastic
 ## How to Run
 
 ### To create synthetic data
