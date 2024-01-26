@@ -63,6 +63,14 @@ class Render:
         self.axis.location = (0, 0, 0)
         self.camera.location = (0, 0, 1.2)
 
+    def set_hammer(self):
+        """
+        Set Hammer Information
+        """
+        self.objects[0].rotation_euler = (90, 0, 180)
+        self.objects[0].location = (0, -0.125, 0)
+        self.objects[0].scale = (0.01, 0.01, 0.01)
+
     def main_rendering_loop(self, rot_step):
         """
         This function represent the main algorithm explained in the Tutorial, it accepts the
@@ -387,6 +395,9 @@ if __name__ == "__main__":
     r = Render()
     # Initialize camera
     r.set_camera()
+
+    # Set first object/hammer's information
+    r.set_hammer()
     # Begin data generation
     rotation_step = 5
     r.main_rendering_loop(rotation_step)
