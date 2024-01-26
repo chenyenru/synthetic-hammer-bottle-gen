@@ -19,6 +19,8 @@ Adapted from [Federico Arenas López's Data Generation with Blender](https://fed
 - [ ] Hammer
     - [ ] Different Hammer materials
         - [ ] Rough plastic
+
+
 ## How to Run
 
 ### To create synthetic data
