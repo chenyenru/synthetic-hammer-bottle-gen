@@ -20,6 +20,10 @@ Adapted from [Federico Arenas López's Data Generation with Blender](https://fed
     - [ ] Different Hammer materials
         - [ ] Rough plastic
 
+- [ ] `main.script`
+    - [ ] Test the effect of rough plastic material
+    - [ ] Loop through different backgrounds
+    - [ ] Loop through different color
 
 ## How to Run
 
