@@ -4,6 +4,8 @@ import numpy as np
 import math as m
 import random
 
+# Access Blender's Mesh Editing Library
+import bmesh
 
 ## Main Class
 
@@ -71,7 +73,7 @@ class Render:
         self.objects[0].location = (0, -0.125, 0)
         self.objects[0].scale = (0.01, 0.01, 0.01)
 
-    def main_rendering_loop(self, rot_step):
+    def main_rendering_loop(self, rot_step, pathname, bg_counter):
         """
         This function represent the main algorithm explained in the Tutorial, it accepts the
         rotation step as input, and outputs the images and the labels to the above specified locations.
@@ -79,6 +81,8 @@ class Render:
         ## Calculate the number of images and labels to generate
         n_renders = self.calculate_n_renders(rot_step)  # Calculate number of images
         print("Number of renders to create:", n_renders)
+
+        self.new_bg_material(pathname)
 
         accept_render = input(
             "\nContinue?[Y/N]:  "
@@ -140,7 +144,7 @@ class Render:
 
                         ## Generate render
                         self.render_blender(
-                            render_counter
+                            f"{render_counter}_{bg_counter}"
                         )  # Take photo of current scene and ouput the render_counter.png file
                         # Display demo information - Photo information
                         print("--> Picture information:")
@@ -152,7 +156,11 @@ class Render:
 
                         ## Output Labels
                         text_file_name = (
-                            self.labels_filepath + "/" + str(render_counter) + ".txt"
+                            self.labels_filepath
+                            + "/"
+                            + str(render_counter)
+                            + f"_{bg_counter}"
+                            + ".txt"
                         )  # Create label file name
                         text_file = open(
                             text_file_name, "w+"
@@ -388,6 +396,37 @@ class Render:
 
         return objs
 
+    def new_bg_material(self, pathname):
+        material = bpy.data.materials.new(name="generated_material")
+        material.use_nodes = True
+        texImage = material.node_tree.nodes.new("ShaderNodeTexImage")
+        texImage.image = bpy.data.images.load(pathname)
+
+        principled_bsdf_node = material.node_tree.nodes["Principled BSDF"]
+        principled_bsdf_node.inputs["Base Color"].default_value = (1.0, 1.0, 1.0, 1.0)
+
+        material.node_tree.links.new(
+            principled_bsdf_node.inputs["Base Color"], texImage.outputs["Color"]
+        )
+
+        # Assign it to object
+        if self.bg.data.materials:
+            self.bg.data.materials[0] = material
+        else:
+            self.bg.materials.append(material)
+
+
+import os
+
+
+def get_absolute_paths(directory):
+    absolute_paths = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            absolute_paths.append(os.path.abspath(file_path))
+    return absolute_paths
+
 
 ## Run data generation
 if __name__ == "__main__":
@@ -400,4 +439,9 @@ if __name__ == "__main__":
     r.set_hammer()
     # Begin data generation
     rotation_step = 5
-    r.main_rendering_loop(rotation_step)
+
+    texture_path = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Resources/Blender_Files/Textures"
+    texture_paths_list = get_absolute_paths(texture_path)
+
+    for i in len(texture_paths_list):
+        r.main_rendering_loop(rotation_step, texture_paths_list[i], i)
