@@ -25,6 +25,7 @@ class Render:
         self.obj_names = [
             "Hammer",
         ]
+        self.bg = bpy.data.objects["Plane"]
         self.objects = (
             self.create_objects()
         )  # Create list of bpy.data.objects from bpy.data.objects[1] to bpy.data.objects[N]
@@ -54,8 +55,8 @@ class Render:
 
         ## Output information
         # Input your own preferred location for the images and labels
-        self.images_filepath = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Data-Generation-with-Blender/Resources/DATA/Images"
-        self.labels_filepath = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Data-Generation-with-Blender/Resources/DATA/Labels"
+        self.images_filepath = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Resources/DATA/Images"
+        self.labels_filepath = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Resources/DATA/Labels"
 
     def set_camera(self):
         """
@@ -402,14 +403,30 @@ class Render:
         texImage = material.node_tree.nodes.new("ShaderNodeTexImage")
         texImage.image = bpy.data.images.load(pathname)
 
-        principled_bsdf_node = material.node_tree.nodes["Principled BSDF"]
-        principled_bsdf_node.inputs["Base Color"].default_value = (1.0, 1.0, 1.0, 1.0)
+        bsdf_node = material.node_tree.nodes.get("Principled BSDF")
 
+        bsdf_node.inputs["Base Color"].default_value = (0, 0, 0, 1.0)
+
+        # Check if UV map exists, create it if not
+
+        uv_map_name = "UVMap"
+        if not self.bg.data.uv_layers.get(uv_map_name):
+            self.bg.data.uv_layers.new(name=uv_map_name)
+
+        # Set the Image Texture node to use UV coordinates
+        texImage.location = (0, 0)  # Adjust the location if needed
+        uv_map_node = material.node_tree.nodes.new(type="ShaderNodeUVMap")
+        uv_map_node.uv_map = uv_map_name
+
+        # Connect the Image Texture node to the Principled BSDF shader node
         material.node_tree.links.new(
-            principled_bsdf_node.inputs["Base Color"], texImage.outputs["Color"]
+            bsdf_node.inputs["Base Color"], texImage.outputs["Color"]
+        )
+        material.node_tree.links.new(
+            texImage.inputs["Vector"], uv_map_node.outputs["UV"]
         )
 
-        # Assign it to object
+        # Assign the material to the object
         if self.bg.data.materials:
             self.bg.data.materials[0] = material
         else:
@@ -443,5 +460,5 @@ if __name__ == "__main__":
     texture_path = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Resources/Blender_Files/Textures"
     texture_paths_list = get_absolute_paths(texture_path)
 
-    for i in len(texture_paths_list):
+    for i in range(len(texture_paths_list)):
         r.main_rendering_loop(rotation_step, texture_paths_list[i], i)
