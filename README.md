@@ -4,7 +4,7 @@ Adapted from [Federico Arenas López's Data Generation with Blender](https://fed
 
 ## Todos
 
-- [ ] Different background
+- [x] Different background
 - [ ] Plastic Bottle
     - [ ] 1 L wide-mouthed plastic water bottle
     - [ ] Material
@@ -16,13 +16,13 @@ Adapted from [Federico Arenas López's Data Generation with Blender](https://fed
             - [ ] Orange
             - [ ] Red
 
-- [ ] Hammer
-    - [ ] Different Hammer materials
-        - [ ] Rough plastic
+- [x] Hammer
+    - [x] Different Hammer materials
+        - [x] Rough plastic
 
 - [ ] `main.script`
-    - [ ] Test the effect of rough plastic material
-    - [ ] Loop through different backgrounds
+    - [x] Test the effect of rough plastic material
+    - [x] Loop through different backgrounds
     - [ ] Loop through different color
 
 ## How to Run
