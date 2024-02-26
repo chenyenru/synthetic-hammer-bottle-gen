@@ -1,6 +1,5 @@
 import cv2
 import os
-import imageio
 import numpy as np
 
 
@@ -39,7 +38,7 @@ def process_images(image_folder, bbox_folder, output_folder, target_size=(640, 4
     image_files = [
         f
         for f in sorted(os.listdir(image_folder))
-        if f.endswith((".jpg", ".jpeg", ".png"))
+        if f.endswith(("_1.jpg", "_1.jpeg", "_1.png"))
     ]
     # Loop through each image in the image folder
     for image_file in image_files:
