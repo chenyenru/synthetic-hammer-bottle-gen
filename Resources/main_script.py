@@ -37,10 +37,10 @@ class Render:
         self.camera_d_limits = [0.6, 0.6]
 
         # Define range of beta angles that the camera is going to pan through
-        self.beta_limits = [50, -50]
+        self.beta_limits = [50, -106]
 
         # Define range of gamma angles that the camera is going to pan through
-        self.gamma_limits = [0, 30]
+        self.gamma_limits = [0, 360]
 
         ## Output information
         # Input your own preferred location for the images and labels
@@ -141,9 +141,8 @@ class Render:
                             self.light_2.data.energy = energy2  # Update the <bpy.data.objects['Light2']> energy information
 
                             ## Generate render
-                            self.render_blender(
-                                f"{render_counter}_{bg_counter}"
-                            )  # Take photo of current scene and ouput the render_counter.png file
+                            self.render_blender(f"Bottle_{render_counter}_{bg_counter}")
+                            # Take photo of current scene and ouput the render_counter.png file
                             # Display demo information - Photo information
                             print("--> Picture information:")
                             print(
@@ -156,11 +155,7 @@ class Render:
                             print("     Rendering samples:", self.samples)
 
                             ## Output Labels
-                            text_file_name = (
-                                f"{self.labels_filepath}/{render_counter}"
-                                + f"_{bg_counter}"
-                                + ".txt"
-                            )
+                            text_file_name = f"{self.labels_filepath}/Bottle_{render_counter}_{bg_counter}.txt"
                             with open(text_file_name, "w+") as text_file:
                                 # Get formatted coordinates of the bounding boxes of all the objects in the scene
                                 # Display demo information - Label construction
@@ -433,11 +428,11 @@ if __name__ == "__main__":
     # Set first object/hammer's information
     # r.set_hammer()
     # Begin data generation
-    rotation_step = 5
+    rotation_step = 10
 
     # Different texture paths
     texture_path = "/Users/chen_yenru/Documents/GitHub/SCHOOL/UCSD/YonderDynamics/synthetic-hammer-bottle-gen/Resources/Blender_Files/Textures"
     texture_paths_list = get_absolute_paths(texture_path)
 
     # for i in range(len(texture_paths_list)):
-    r.main_rendering_loop(rotation_step, texture_paths_list[0], 1)
+    r.main_rendering_loop(rotation_step, texture_paths_list[0], 0)
