@@ -2,6 +2,11 @@
 ======
 Adapted from [Federico Arenas López's Data Generation with Blender](https://federicoarenasl.github.io/Data-Generation-with-Blender/)
 
+## Demo
+
+![Close shot](Resources/result.gif)
+![Long shot](Resources/result2.gif)
+
 ## Todos
 
 - [x] Different background
