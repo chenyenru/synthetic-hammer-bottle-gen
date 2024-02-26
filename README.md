@@ -4,8 +4,8 @@ Adapted from [Federico Arenas López's Data Generation with Blender](https://fed
 
 ## Demo
 
-![Close shot](Resources/result.gif)
-![Long shot](Resources/result2.gif)
+<img src="Resources/result.gif" height="300">
+<img src="Resources/result2.gif" height="300">
 
 ## Todos
 
